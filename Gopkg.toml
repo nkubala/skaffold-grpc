@@ -1,0 +1,13 @@
+[prune]
+  unused-packages = true
+  non-go = true
+  go-tests = true
+
+[[constraint]]
+  name = "github.com/GoogleContainerTools/skaffold"
+  source = "https://github.com/nkubala/skaffold.git"
+  branch = "event_api_rpc"
+
+[[constraint]]
+  name = "google.golang.org/grpc"
+  branch = "master"

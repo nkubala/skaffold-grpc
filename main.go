@@ -3,25 +3,21 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/GoogleContainerTools/skaffold/pkg/skaffold/event/proto"
-	// empty "github.com/golang/protobuf/ptypes/empty"
-	"google.golang.org/grpc"
-	// "io"
 	"os"
-	// "time"
+	"time"
+
+	"github.com/GoogleContainerTools/skaffold/pkg/skaffold/event/proto"
+
+	"google.golang.org/grpc"
 )
 
 var (
-	addr = ":50051"
-	// request = &event.Request{Name: "Request"}
-	// response = new(event.Response)
-	// stateResponse = &event.StateResponse{}
+	addr        = ":50051"
+	MAX_ERRORS  = 5
+	MAX_RETRIES = 10
 )
 
 func main() {
-
-	// client, err := rpc.Dial("tcp", addr)
-	// client, err := rpc.DialHTTP("tcp", addr)
 	conn, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
 		fmt.Printf("error opening connection: %s\n", err.Error())
@@ -30,7 +26,6 @@ func main() {
 	defer conn.Close()
 	client := proto.NewSkaffoldServiceClient(conn)
 
-	// ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -39,15 +34,33 @@ func main() {
 	// 	fmt.Printf("error retrieving state: %v\n", err)
 	// }
 	// fmt.Printf("response from server: %+v\n", r)
-
-	stream, err := client.EventLog(ctx)
-	if err != nil {
+	retries := 0
+	var stream proto.SkaffoldService_EventLogClient
+	for {
+		stream, err = client.EventLog(ctx)
+		if err == nil {
+			break
+		} else if retries < MAX_RETRIES {
+			retries = retries + 1
+			fmt.Println("waiting for connection...")
+			time.Sleep(3 * time.Second)
+			continue
+		}
 		fmt.Printf("error retrieving event log: %v\n", err)
+		os.Exit(1)
 	}
+
+	errors := 0
 	for {
 		entry, err := stream.Recv()
 		if err != nil {
-			fmt.Printf("error receiving message from stream: %v\n", err)
+			errors = errors + 1
+			fmt.Printf("[%d] error receiving message from stream: %v\n", errors, err)
+			if errors == MAX_ERRORS {
+				fmt.Printf("%d errors encountered: quitting", MAX_ERRORS)
+				os.Exit(1)
+			}
+			time.Sleep(1 * time.Second)
 		} else {
 			fmt.Printf("%+v\n", entry)
 		}
