@@ -3,16 +3,16 @@
 
 [[projects]]
   branch = "event_api_rpc"
-  digest = "1:e8785fb282794ee2ed57dfbb737ab48efea544a147f91881bbcbf4005f1b3b32"
+  digest = "1:c87fee4b2bdf669651424f5a89ec0ae5c908838c478aaf5942b27525ce2cc040"
   name = "github.com/GoogleContainerTools/skaffold"
   packages = ["pkg/skaffold/event/proto"]
   pruneopts = "NUT"
-  revision = "50c65019618d5e280caff4b7fa275ccfcc065d4b"
+  revision = "d1c798abcc882ad71677bf7c58f5efa9620a3c1c"
   source = "https://github.com/nkubala/skaffold.git"
 
 [[projects]]
   branch = "master"
-  digest = "1:722dc7efc65b0bbcb367b0aa28755c4c0bb37b62ce402f5184de020b1d0b6f49"
+  digest = "1:f4ba27da46b849b5265769d63959c280823131e502bd6f5cc77541f5315c50fb"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -23,7 +23,7 @@
     "ptypes/timestamp",
   ]
   pruneopts = "NUT"
-  revision = "347cf4a86c1cb8d262994d8ef5924d4576c5b331"
+  revision = "c823c79ea1570fb5ff454033735a8e68575d1d0f"
 
 [[projects]]
   branch = "master"
@@ -38,15 +38,15 @@
     "trace",
   ]
   pruneopts = "NUT"
-  revision = "d26f9f9a57f3fab6a695bec0d84433c2c50f8bbf"
+  revision = "3a22650c66bd7f4fb6d1e8072ffd7b75c8a27898"
 
 [[projects]]
   branch = "master"
-  digest = "1:e6ec092f8cfa8626b193a5d44d7f026338c02253d03a48d8dc78bcd5734b7029"
+  digest = "1:b1085269f659d40b582e254edea4b3ab5948e2e9b85669f0da05ef3469aac2ca"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "NUT"
-  revision = "aca44879d5644da7c5b8ec6a1115e9b6ea6c40d9"
+  revision = "629670e5acc5b3e069375d323404911dc8fe1d19"
 
 [[projects]]
   digest = "1:e7071ed636b5422cc51c0e3a6cebc229d6c9fffc528814b519a980641422d619"
@@ -77,11 +77,11 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "NUT"
-  revision = "8ac453e89fca495c0d17f98932642f392e2a11f3"
+  revision = "082222b4a5c572e33e82ee9162d1352c7cf38682"
 
 [[projects]]
   branch = "master"
-  digest = "1:72242824b852a594cd954a0d947287405d2706f3ab5faf6f3fc1bf38efe4db1f"
+  digest = "1:96dd5f99242fd5dc233a3f05df9a94f57131d2cc3134b007b63d7f111d612763"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -117,13 +117,14 @@
     "tap",
   ]
   pruneopts = "NUT"
-  revision = "1925e2441e117612f6e937446c35fd95bf4ac285"
+  revision = "29c406a5bd0ed61c5752d00c6aabd9fa036ed328"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
     "github.com/GoogleContainerTools/skaffold/pkg/skaffold/event/proto",
+    "github.com/golang/protobuf/ptypes/empty",
     "google.golang.org/grpc",
   ]
   solver-name = "gps-cdcl"
